@@ -1,0 +1,27 @@
+[
+    {
+        "model-name": "halbzeugmaterialien",
+        "resource-file": "halbzeugmaterialiens.json",
+        "table-name": "halbzeugmaterialiens"
+    },
+    {
+        "model-name": "hersteller",
+        "resource-file": "hersteller.json",
+        "table-name": "hersteller"
+    },
+    {
+        "model-name": "material_halbzeug",
+        "resource-file": "material_halbzeuge.json",
+        "table-name": "material_halbzeuge"
+    },
+    {
+        "model-name": "material_halbzeuge",
+        "resource-file": "material_halbzeuges.json",
+        "table-name": "material_halbzeuges"
+    },
+    {
+        "model-name": "material_hersteller",
+        "resource-file": "material_hersteller.json",
+        "table-name": "material_hersteller"
+    }
+]
