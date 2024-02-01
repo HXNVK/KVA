@@ -1,5 +1,7 @@
 <?php
 
+use Darryldecode\Cart\CartServiceProvider;
+
 return [
 
     /*
@@ -163,6 +165,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        Darryldecode\Cart\CartServiceProvider::class,
 
         /*
          * Package Service Providers...

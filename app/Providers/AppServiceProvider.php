@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Darryldecode\Cart\Cart;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**

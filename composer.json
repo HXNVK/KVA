@@ -54,7 +54,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "darryldecode\\cart\\": "packages/nvkcart/src"
+            "Darryldecode\\Cart\\": "./packages/nvkcart/src/Darryldecode/Cart"
         },
         "classmap": [
             "database/seeds",
