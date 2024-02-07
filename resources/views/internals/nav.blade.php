@@ -261,6 +261,12 @@
                     </a>
                     
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @can('user-list')
+                        <li><a class="dropdown-item" href="{{ route('users.index') }}">
+                            {{ __('Benutzer') }}
+                        </a></li>
+                        @endcan
+        
                         
                         <li><a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault();

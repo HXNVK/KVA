@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/','auth.login');
 Auth::routes([
   'register' => false, // Registration Routes...
-  'reset' => false, // Password Reset Routes...
-  'verify' => false, // Email Verification Routes...
+  // 'reset' => false, // Password Reset Routes...
+  // 'verify' => false, // Email Verification Routes...
 ]);
 
 
@@ -227,6 +227,7 @@ Route::resource('propellerStepCodeWurzelBloecke','PropellerStepCodeWurzelBloecke
 Route::middleware(['auth'])->group( function(){
 
      Route::get('get/{filename}', 'PropellerStepCodeDateienController@getFile')->name('getfile');
+     Route::resource('/users', UserController::class);
 
 });
 
