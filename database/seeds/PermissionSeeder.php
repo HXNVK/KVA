@@ -33,6 +33,7 @@ class PermissionSeeder extends Seeder
             'user-delete',
             'user-edit',
             'user-list',
+            'auftragssteuerung-voll',
         ];
 
         foreach ($guards as $guard) {
@@ -46,25 +47,18 @@ class PermissionSeeder extends Seeder
 
         $user = User::find(1);
         $user->assignRole('SuperAdmin');
-        $user = User::find(24);
-        $user->assignRole('SuperAdmin');
-        
-        $user->password = Hash::make('marvin95');
-        $user->save();
-
-
 
 
         foreach ($permissions as $permission) {
             $role->givePermissionTo($permission->name);
         }
 
-        $adminPermissions = [
-            'user-list'
+        $verwaltungPermissions = [
+            'auftragssteuerung-voll'
         ];
 
-        $role = Role::findOrCreate('Admin');
-        $role->givePermissionTo($adminPermissions);
+        $role = Role::findOrCreate('Verwaltung');
+        $role->givePermissionTo($verwaltungPermissions);
 
 
 

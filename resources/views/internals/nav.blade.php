@@ -250,9 +250,6 @@
             <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                <!-- @if (Route::has('register'))        
-                    <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                @endif -->
                 @else
                 <button class="btn btn-warning"><a href="/dashboard">Dashboard</a></button>
                 <li class="dropdown">
