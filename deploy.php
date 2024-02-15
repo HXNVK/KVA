@@ -29,5 +29,4 @@ task('deploy:build', function() {
 });
 
 after('deploy:failed', 'deploy:unlock');
-before('deploy:symlink', 'artisan:migrate');
-before('deploy:symlink', 'deploy:build');
+after('artisan:migrate', 'deploy:build');
