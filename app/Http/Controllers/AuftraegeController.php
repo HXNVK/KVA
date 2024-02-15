@@ -477,8 +477,8 @@ class AuftraegeController extends Controller
                                 ]);
             //$pdf->setOption('toc', true);               
             $pdf->setOption('margin-top', 15); //** default 10mm */
-            $pdf->setOption('footer-center', 'Ausgabe 20.06.2023 / ausgedruckte Exemplare unterliegen nicht dem Aenderungsdienst');
-            $pdf->setOption('footer-right', '[page]/[toPage]');
+            //$pdf->setOption('footer-center', 'Ausgabe 20.06.2023 / ausgedruckte Exemplare unterliegen nicht dem Aenderungsdienst');
+            //$pdf->setOption('footer-right', '[page]/[toPage]');
             $pdf->setOption('footer-font-size', '6');
             return $pdf->download("FB019_".$auftrag->kundeMatchcode."_".$auftrag->id.".pdf");  
         }
