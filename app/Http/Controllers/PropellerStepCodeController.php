@@ -21,7 +21,7 @@ use PDF;
 class PropellerStepCodeController extends Controller
 {
 
-    public function __construct()
+    public function __construct()       //wird ausgeführt, wenn die Klasse erzeugt wird
     {
         $this->middleware('auth');
     }
