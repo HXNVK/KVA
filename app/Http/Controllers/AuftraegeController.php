@@ -11,7 +11,6 @@ use PDF;
 use DNS1D;
 use DNS2D;
 
-
 use App\Models\Kunde;
 use App\Models\Projekt;
 use App\Models\ProjektPropeller;
