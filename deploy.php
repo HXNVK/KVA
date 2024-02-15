@@ -22,10 +22,12 @@ host('kva-test.helix-propeller.de')
 
 
 // Hooks
-task('build', function () {
-    run('cd {{release_path}} && build');
+task('deploy:build', function() {
+    cd('{{release_path}}');
+    run('npm install');
+    run('npm run prod');
 });
 
 after('deploy:failed', 'deploy:unlock');
 before('deploy:symlink', 'artisan:migrate');
-before('deploy:symlink', 'build');
+before('deploy:symlink', 'deploy:build');
