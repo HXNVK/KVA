@@ -24,7 +24,7 @@
             border-collapse: collapse;
             border: 1px solid grey;
             min-width: 50px;
-            table-layout: fixed;
+            /* table-layout: fixed; */
         }
 
         th {
@@ -56,10 +56,10 @@
 
         footer {
             position: fixed;
-            bottom: -35px;
+            bottom: -15px;
             left: 0px;
             right: 0px;
-            border: 1px solid black;
+            /* border: 1px solid black; */
             font-size: 6pt;
             font-weight: normal;
             text-align: center;
