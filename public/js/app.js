@@ -299,8 +299,8 @@ File: Main Js File
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\User\sources\KVA\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\User\sources\KVA\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/lantzen/Sources/Helix-Carbon/KVA/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/lantzen/Sources/Helix-Carbon/KVA/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
