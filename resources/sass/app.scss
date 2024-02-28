@@ -6,3 +6,68 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.btn-check {
+    color: #1e1e1e;
+    background-color: #fbbb30;
+    border-color: #fbbb30;
+  }
+  
+  .btn-check:hover {
+    color: #3b3b3b;
+    background-color: #fbbb30;
+    border-color: #fbbb30;
+  }
+  
+  .btn-hold {
+    color: #1e1e1e;
+    background-color: #d2fb30;
+    border-color: #d2fb30;
+  }
+  
+  .btn-hold:hover {
+    color: #3b3b3b;
+    background-color: #d2fb30;
+    border-color: #d2fb30;
+  }
+
+  .btn-purple {
+    color: #fff;
+    background-color: #960096;
+    border-color: #960096;
+  }
+  
+  .btn-purple:hover {
+    color: #fff;
+    background-color: #960096;
+    border-color: #960096;
+  }
+  
+  .btn-purple:focus,
+  .btn-purple.focus {
+    color: #fff;
+    background-color: #960096;
+    border-color: #960096;
+    box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5);
+  }
+  
+  .btn-purple.disabled,
+  .btn-purple:disabled {
+    color: #fff;
+    background-color: #960096;
+    border-color: #960096;
+  }
+  
+  .btn-purple:not(:disabled):not(.disabled):active,
+  .btn-purple:not(:disabled):not(.disabled).active,
+  .show > .btn-purple.dropdown-toggle {
+    color: #fff;
+    background-color: #960096;
+    border-color: #960096;
+  }
+  
+  .btn-purple:not(:disabled):not(.disabled):active:focus,
+  .btn-purple:not(:disabled):not(.disabled).active:focus,
+  .show > .btn-purple.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(82, 88, 93, 0.5);
+  }

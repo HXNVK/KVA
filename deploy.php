@@ -3,39 +3,30 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
+// Config
+
+set('repository', 'https://github.com/HXNVK/KVA.git');
+
 // Project name
 set('application', 'kva');
 
-// Project repository
-set('repository', 'git@github.com:HXNVK/KVA.git');
-
-// [Optional] Allocate tty for git clone. Default value is false.
-set('git_tty', true); 
-
-// Shared files/dirs between deploys 
 add('shared_files', []);
 add('shared_dirs', []);
-
-// Writable dirs by web server 
 add('writable_dirs', []);
-set('allow_anonymous_stats', false);
 
 // Hosts
 
-host('116.202.107.24')
-    ->user('kva')
+host('kva-test.helix-propeller.de')
+    ->set('remote_user', 'kva')
     ->set('deploy_path', '/var/www/{{application}}');    
-    
-// Tasks
 
-task('build', function () {
-    run('cd {{release_path}} && build');
+
+// Hooks
+task('deploy:build', function() {
+    cd('{{release_path}}');
+    run('npm install');
+    run('npm run prod');
 });
 
-// [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
-
-// Migrate database before symlink new release.
-
-before('deploy:symlink', 'artisan:migrate');
-
+after('artisan:migrate', 'deploy:build');

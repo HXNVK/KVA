@@ -7,10 +7,8 @@ use Illuminate\Support\Str;
 use Session;
 use Auth;
 use DB;
-use PDF;
 use DNS1D;
 use DNS2D;
-
 
 use App\Models\Kunde;
 use App\Models\Projekt;
@@ -35,7 +33,8 @@ use App\Models\PropellerForm;
 use App\Models\Material;
 use App\Models\PropellerZuschnitt;
 use App\Models\PropellerZuschnittLage;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Dompdf\Dompdf;
 class AuftraegeController extends Controller
 {
 
@@ -382,13 +381,14 @@ class AuftraegeController extends Controller
 
             $myFactoryQR = "#".$id."#AB".$auftrag->lexwareAB."#D".$auftrag->myFactoryID."";
     
-            $pdf = PDF::loadView('auftraege.pdf', [
+
+            $pdf = Pdf::setPaper('a4', 'portrait')->loadView('auftraege.pdf', [
                                     'auftrag' => $auftrag,
                                     'url' => $url,
                                     'myFactoryQR' => $myFactoryQR,
                                     'propellerForm' => $propellerForm
                                 ]);
-            //$pdf->setOption('toc', true);               
+            //$pdf->setOption('toc', true); 
             $pdf->setOption('margin-top', 15); //** default 10mm */
             $pdf->setOption('footer-center', 'Ausgabe 19.02.2021 / ausgedruckte Exemplare unterliegen nicht dem Aenderungsdienst');
             $pdf->setOption('footer-right', '[page]/[toPage]');
@@ -467,6 +467,17 @@ class AuftraegeController extends Controller
                                                         ->get(['id','produktionsjahr']);
                                                         
     
+
+            // return view('auftraege.pdf', [
+            //                         'auftrag' => $auftrag,
+            //                         'materialien' => $materialien,
+            //                         'url' => $url,
+            //                         'myFactoryQR' => $myFactoryQR,
+            //                         'propellerZuschnitt_aktuell' => $propellerZuschnitt_aktuell,
+            //                         'propellerZuschnittLagen' => $propellerZuschnittLagen,
+            //                         'propellernummern' => $propellernummern
+            //                     ]);
+
             $pdf = PDF::loadView('auftraege.pdf', [
                                     'auftrag' => $auftrag,
                                     'materialien' => $materialien,
@@ -478,15 +489,32 @@ class AuftraegeController extends Controller
                                 ]);
             //$pdf->setOption('toc', true);               
             $pdf->setOption('margin-top', 15); //** default 10mm */
-            $pdf->setOption('footer-center', 'Ausgabe 20.06.2023 / ausgedruckte Exemplare unterliegen nicht dem Aenderungsdienst');
-            $pdf->setOption('footer-right', '[page]/[toPage]');
-            $pdf->setOption('footer-font-size', '6');
+            // $pdf->setOption('footer-center', 'Ausgabe 20.06.2023 / ausgedruckte Exemplare unterliegen nicht dem Aenderungsdienst');
+            // $pdf->setOption('footer-right', '[page]/[toPage]');
+            // $pdf->setOption('footer-font-size', '6');
+            $pdf->setOption('dpi', 130);              
+
+            $dompdf = $pdf->getDomPDF();
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+
             return $pdf->download("FB019_".$auftrag->kundeMatchcode."_".$auftrag->id.".pdf");  
         }
 
 
           
 
+    }
+
+    function injectPageCount(Dompdf $dompdf): void{
+            /** @var CPDF $canvas */
+            $canvas = $dompdf->getCanvas();
+            $pdf = $canvas->get_cpdf();
+            foreach ($pdf->objects as &$o) {
+                if ($o['t'] === 'contents') {
+                    $o['c'] = str_replace('$PC$', $canvas->get_page_count(), $o['c']);
+                }
+            }
     }
 
 

@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/','auth.login');
 Auth::routes([
   'register' => false, // Registration Routes...
-  'reset' => false, // Password Reset Routes...
-  'verify' => false, // Email Verification Routes...
+  // 'reset' => false, // Password Reset Routes...
+  // 'verify' => false, // Email Verification Routes...
 ]);
 
 
@@ -60,155 +60,157 @@ Route::get('propeller/create/json-propellerForm/{id}',array('as'=>'propeller.pro
 
 Route::resource('shop','CartController');
 
+Route::middleware(['auth'])->group( function(){
 
-//Bereich Propeller Tools, Matrix & CAD
-Route::resource('propellerFormMatritzen','PropellerFormMatritzenController');
-Route::get('/indexGF25_0L', 'PropellerFormMatritzenController@indexGF25_0L');
-Route::get('/indexGF25_0R', 'PropellerFormMatritzenController@indexGF25_0R');
+     //StepCode
+     Route::get('get/{filename}', 'PropellerStepCodeDateienController@getFile')->name('getfile');
+     Route::resource('/users', UserController::class);
 
-Route::get('/indexGF26_0L', 'PropellerFormMatritzenController@indexGF26_0L');
-Route::get('/indexGF26_0R', 'PropellerFormMatritzenController@indexGF26_0R');
+     //Bereich LFA
+     Route::resource('laermmessungDaten','LaermmessungDatenController');
+     Route::resource('laermmessungen','LaermmessungenController');
+     Route::get('/laermmessBerichtPDF/{laermmessBerichtPDF}', 'LaermmessungenController@laermmessBerichtPDF');
 
-Route::get('/indexGF30_0L', 'PropellerFormMatritzenController@indexGF30_0L');
-Route::get('/indexGF30_0R', 'PropellerFormMatritzenController@indexGF30_0R');
-Route::get('/indexGK30_0L', 'PropellerFormMatritzenController@indexGK30_0L');
-Route::get('/indexGK30_0R', 'PropellerFormMatritzenController@indexGK30_0R');
+     //Bereich Produktion
+     Route::resource('materialien','MaterialienController');
+     Route::resource('materialHersteller','MaterialHerstellerController');
+     Route::get('/herstellerPDF', 'MaterialHerstellerController@herstellerPDF');
+     Route::get('/materialienPDF', 'MaterialienController@materialienPDF');
 
-Route::get('/indexGF31_0L', 'PropellerFormMatritzenController@indexGF31_0L');
-Route::get('/indexGF31_0R', 'PropellerFormMatritzenController@indexGF31_0R');
+     //Bereich Propeller Tools, Matrix & CAD
+     Route::resource('propellerFormMatritzen','PropellerFormMatritzenController');
+     Route::get('/indexGF25_0L', 'PropellerFormMatritzenController@indexGF25_0L');
+     Route::get('/indexGF25_0R', 'PropellerFormMatritzenController@indexGF25_0R');
 
-Route::get('/indexGF40_0L', 'PropellerFormMatritzenController@indexGF40_0L');
-Route::get('/indexGF40_0R', 'PropellerFormMatritzenController@indexGF40_0R');
+     Route::get('/indexGF26_0L', 'PropellerFormMatritzenController@indexGF26_0L');
+     Route::get('/indexGF26_0R', 'PropellerFormMatritzenController@indexGF26_0R');
 
-Route::get('/indexGF45_0L', 'PropellerFormMatritzenController@indexGF45_0L');
-Route::get('/indexGF45_0R', 'PropellerFormMatritzenController@indexGF45_0R');
+     Route::get('/indexGF30_0L', 'PropellerFormMatritzenController@indexGF30_0L');
+     Route::get('/indexGF30_0R', 'PropellerFormMatritzenController@indexGF30_0R');
+     Route::get('/indexGK30_0L', 'PropellerFormMatritzenController@indexGK30_0L');
+     Route::get('/indexGK30_0R', 'PropellerFormMatritzenController@indexGK30_0R');
 
-Route::get('/indexGF50_0L', 'PropellerFormMatritzenController@indexGF50_0L');
-Route::get('/indexGF50_0R', 'PropellerFormMatritzenController@indexGF50_0R');
+     Route::get('/indexGF31_0L', 'PropellerFormMatritzenController@indexGF31_0L');
+     Route::get('/indexGF31_0R', 'PropellerFormMatritzenController@indexGF31_0R');
 
-Route::resource('propellerFormen','PropellerFormenController');
-Route::get('/propellerFormen/auftrag/fb018', 'PropellerFormenController@fb018')->name('propellerFormen.fb018');
-Route::post('/propellerFormen/fb018speichern', 'PropellerFormenController@fb018speichern')->name('propellerFormen.fb018speichern');
+     Route::get('/indexGF40_0L', 'PropellerFormMatritzenController@indexGF40_0L');
+     Route::get('/indexGF40_0R', 'PropellerFormMatritzenController@indexGF40_0R');
 
-Route::get('/formen_GF25_0_PDF', 'PropellerFormenController@formen_GF25_0_PDF');
-Route::get('/formen_GF26_0_PDF', 'PropellerFormenController@formen_GF26_0_PDF');
-Route::get('/formen_GF30_0_PDF', 'PropellerFormenController@formen_GF30_0_PDF');
-Route::get('/formen_GF31_0_PDF', 'PropellerFormenController@formen_GF31_0_PDF');
-Route::get('/formen_GV30_0_PDF', 'PropellerFormenController@formen_GV30_0_PDF');
-Route::get('/formen_GK30_0_PDF', 'PropellerFormenController@formen_GK30_0_PDF');
-Route::get('/formen_GF40_0_PDF', 'PropellerFormenController@formen_GF40_0_PDF');
-Route::get('/formen_GF45_0_PDF', 'PropellerFormenController@formen_GF45_0_PDF');
-Route::get('/formen_GF50_0_PDF', 'PropellerFormenController@formen_GF50_0_PDF');
-Route::get('/formen_GV50_0_PDF', 'PropellerFormenController@formen_GV50_0_PDF');
-Route::get('/formen_GAV40_0_PDF', 'PropellerFormenController@formen_GAV40_0_PDF');
-Route::get('/formen_GAV40_1_PDF', 'PropellerFormenController@formen_GAV40_1_PDF');
-Route::get('/formen_GAV60_0_PDF', 'PropellerFormenController@formen_GAV60_0_PDF');
+     Route::get('/indexGF45_0L', 'PropellerFormMatritzenController@indexGF45_0L');
+     Route::get('/indexGF45_0R', 'PropellerFormMatritzenController@indexGF45_0R');
 
+     Route::get('/indexGF50_0L', 'PropellerFormMatritzenController@indexGF50_0L');
+     Route::get('/indexGF50_0R', 'PropellerFormMatritzenController@indexGF50_0R');
 
-Route::resource('propellerModellBlaetter','PropellerModellBlaetterController');
+     Route::resource('propellerFormen','PropellerFormenController');
+     Route::get('/propellerFormen/auftrag/fb018', 'PropellerFormenController@fb018')->name('propellerFormen.fb018');
+     Route::post('/propellerFormen/fb018speichern', 'PropellerFormenController@fb018speichern')->name('propellerFormen.fb018speichern');
 
-Route::resource('propellerModellBlattTypen','PropellerModellBlattTypenController');
-
-Route::resource('propellerModellWurzeln','PropellerModellWurzelnController');
-
-Route::resource('propellerModellKompatibilitaeten','PropellerModellKompatibilitaetenController');
-
-Route::resource('propellerZuschnitte','PropellerZuschnitteController');
-Route::resource('propellerZuschnittLagen','PropellerZuschnittLagenController');
-
-Route::resource('airfoilData','AirfoilDataController');
-
-/**Route::resource(
-     'propellerModellKompatibilitaeten',
-     'PropellerModellKompatibilitaetenController',
-     ['parameters' => [
-          'propellerModellKompatibilitaeten' => 'Kompatibilitaet'
-     ]]);
-==> Route für Route-Namen mit mehr als 32x Characters*/
-
-//PDF´s
-Route::get('/TypenPDF', 'PropellerModellBlattTypenController@typenPDF');
-//Route::get('/BlattmodellePDF', 'PropellerModellBlaetterController@blattmodellePDF');
-Route::get('/blattmodelle_D05_PDF', 'PropellerModellBlaetterController@blattmodelle_D05_PDF');
-Route::get('/blattmodelle_D10_PDF', 'PropellerModellBlaetterController@blattmodelle_D10_PDF');
-Route::get('/blattmodelle_D20_PDF', 'PropellerModellBlaetterController@blattmodelle_D20_PDF');
-Route::get('/blattmodelle_D25_PDF', 'PropellerModellBlaetterController@blattmodelle_D25_PDF');
-Route::get('/blattmodelle_D30_PDF', 'PropellerModellBlaetterController@blattmodelle_D30_PDF');
-Route::get('/blattmodelle_D45_PDF', 'PropellerModellBlaetterController@blattmodelle_D45_PDF');
-Route::get('/blattmodelle_D50_PDF', 'PropellerModellBlaetterController@blattmodelle_D50_PDF');
-Route::get('/blattmodelle_D60_PDF', 'PropellerModellBlaetterController@blattmodelle_D60_PDF');
+     Route::get('/formen_GF25_0_PDF', 'PropellerFormenController@formen_GF25_0_PDF');
+     Route::get('/formen_GF26_0_PDF', 'PropellerFormenController@formen_GF26_0_PDF');
+     Route::get('/formen_GF30_0_PDF', 'PropellerFormenController@formen_GF30_0_PDF');
+     Route::get('/formen_GF31_0_PDF', 'PropellerFormenController@formen_GF31_0_PDF');
+     Route::get('/formen_GV30_0_PDF', 'PropellerFormenController@formen_GV30_0_PDF');
+     Route::get('/formen_GK30_0_PDF', 'PropellerFormenController@formen_GK30_0_PDF');
+     Route::get('/formen_GF40_0_PDF', 'PropellerFormenController@formen_GF40_0_PDF');
+     Route::get('/formen_GF45_0_PDF', 'PropellerFormenController@formen_GF45_0_PDF');
+     Route::get('/formen_GF50_0_PDF', 'PropellerFormenController@formen_GF50_0_PDF');
+     Route::get('/formen_GV50_0_PDF', 'PropellerFormenController@formen_GV50_0_PDF');
+     Route::get('/formen_GAV40_0_PDF', 'PropellerFormenController@formen_GAV40_0_PDF');
+     Route::get('/formen_GAV40_1_PDF', 'PropellerFormenController@formen_GAV40_1_PDF');
+     Route::get('/formen_GAV60_0_PDF', 'PropellerFormenController@formen_GAV60_0_PDF');
 
 
-//Route::get('/WurzelmodellePDF', 'PropellerModellWurzelnController@wurzelmodellePDF');
-Route::get('/wurzelmodelle_GF05_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF05_0_PDF');
-Route::get('/wurzelmodelle_GF10_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF10_0_PDF');
-Route::get('/wurzelmodelle_GF20_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF20_0_PDF');
-Route::get('/wurzelmodelle_GF25_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF25_0_PDF');
-Route::get('/wurzelmodelle_GF26_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF26_0_PDF');
-Route::get('/wurzelmodelle_GF30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF30_0_PDF');
-Route::get('/wurzelmodelle_GF31_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF31_0_PDF');
-Route::get('/wurzelmodelle_GF40_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF40_0_PDF');
-Route::get('/wurzelmodelle_GF45_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF45_0_PDF');
-Route::get('/wurzelmodelle_GF50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF50_0_PDF');
-Route::get('/wurzelmodelle_GF60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF60_0_PDF');
-Route::get('/wurzelmodelle_GK20_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK20_0_PDF');
-Route::get('/wurzelmodelle_GK25_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK25_0_PDF');
-Route::get('/wurzelmodelle_GK30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK30_0_PDF');
-Route::get('/wurzelmodelle_GK40_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK40_0_PDF');
-Route::get('/wurzelmodelle_GK50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK50_0_PDF');
-Route::get('/wurzelmodelle_GS60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GS60_0_PDF');
-Route::get('/wurzelmodelle_GV30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GV30_0_PDF');
-Route::get('/wurzelmodelle_GV50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GV50_0_PDF');
-Route::get('/wurzelmodelle_GAV60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GAV60_0_PDF');
+     Route::resource('propellerModellBlaetter','PropellerModellBlaetterController');
+
+     Route::resource('propellerModellBlattTypen','PropellerModellBlattTypenController');
+
+     Route::resource('propellerModellWurzeln','PropellerModellWurzelnController');
+
+     Route::resource('propellerModellKompatibilitaeten','PropellerModellKompatibilitaetenController');
+
+     Route::resource('propellerZuschnitte','PropellerZuschnitteController');
+     Route::resource('propellerZuschnittLagen','PropellerZuschnittLagenController');
+
+     Route::resource('airfoilData','AirfoilDataController');
+
+     /**Route::resource(
+          'propellerModellKompatibilitaeten',
+          'PropellerModellKompatibilitaetenController',
+          ['parameters' => [
+               'propellerModellKompatibilitaeten' => 'Kompatibilitaet'
+          ]]);
+     ==> Route für Route-Namen mit mehr als 32x Characters*/
+
+     //PDF´s
+     Route::get('/TypenPDF', 'PropellerModellBlattTypenController@typenPDF');
+     //Route::get('/BlattmodellePDF', 'PropellerModellBlaetterController@blattmodellePDF');
+     Route::get('/blattmodelle_D05_PDF', 'PropellerModellBlaetterController@blattmodelle_D05_PDF');
+     Route::get('/blattmodelle_D10_PDF', 'PropellerModellBlaetterController@blattmodelle_D10_PDF');
+     Route::get('/blattmodelle_D20_PDF', 'PropellerModellBlaetterController@blattmodelle_D20_PDF');
+     Route::get('/blattmodelle_D25_PDF', 'PropellerModellBlaetterController@blattmodelle_D25_PDF');
+     Route::get('/blattmodelle_D30_PDF', 'PropellerModellBlaetterController@blattmodelle_D30_PDF');
+     Route::get('/blattmodelle_D45_PDF', 'PropellerModellBlaetterController@blattmodelle_D45_PDF');
+     Route::get('/blattmodelle_D50_PDF', 'PropellerModellBlaetterController@blattmodelle_D50_PDF');
+     Route::get('/blattmodelle_D60_PDF', 'PropellerModellBlaetterController@blattmodelle_D60_PDF');
 
 
-Route::get('/KompatibilitaetenPDF', 'PropellerModellKompatibilitaetenController@kompatibilitaetenPDF');
+     //Route::get('/WurzelmodellePDF', 'PropellerModellWurzelnController@wurzelmodellePDF');
+     Route::get('/wurzelmodelle_GF05_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF05_0_PDF');
+     Route::get('/wurzelmodelle_GF10_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF10_0_PDF');
+     Route::get('/wurzelmodelle_GF20_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF20_0_PDF');
+     Route::get('/wurzelmodelle_GF25_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF25_0_PDF');
+     Route::get('/wurzelmodelle_GF26_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF26_0_PDF');
+     Route::get('/wurzelmodelle_GF30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF30_0_PDF');
+     Route::get('/wurzelmodelle_GF31_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF31_0_PDF');
+     Route::get('/wurzelmodelle_GF40_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF40_0_PDF');
+     Route::get('/wurzelmodelle_GF45_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF45_0_PDF');
+     Route::get('/wurzelmodelle_GF50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF50_0_PDF');
+     Route::get('/wurzelmodelle_GF60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GF60_0_PDF');
+     Route::get('/wurzelmodelle_GK20_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK20_0_PDF');
+     Route::get('/wurzelmodelle_GK25_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK25_0_PDF');
+     Route::get('/wurzelmodelle_GK30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK30_0_PDF');
+     Route::get('/wurzelmodelle_GK40_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK40_0_PDF');
+     Route::get('/wurzelmodelle_GK50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GK50_0_PDF');
+     Route::get('/wurzelmodelle_GS60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GS60_0_PDF');
+     Route::get('/wurzelmodelle_GV30_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GV30_0_PDF');
+     Route::get('/wurzelmodelle_GV50_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GV50_0_PDF');
+     Route::get('/wurzelmodelle_GAV60_0_PDF', 'PropellerModellWurzelnController@wurzelmodelle_GAV60_0_PDF');
 
-Route::get('/formenMatrixPDF_GF25_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF25_0_L');
-Route::get('/formenMatrixPDF_GF25_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF25_0_R');
 
-Route::get('/formenMatrixPDF_GF26_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF26_0_L');
-Route::get('/formenMatrixPDF_GF26_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF26_0_R');
+     Route::get('/KompatibilitaetenPDF', 'PropellerModellKompatibilitaetenController@kompatibilitaetenPDF');
 
-Route::get('/formenMatrixPDF_GF30_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF30_0_L');
-Route::get('/formenMatrixPDF_GF30_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF30_0_R');
-Route::get('/formenMatrixPDF_GK30_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GK30_0_L');
-Route::get('/formenMatrixPDF_GK30_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GK30_0_R');
+     Route::get('/formenMatrixPDF_GF25_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF25_0_L');
+     Route::get('/formenMatrixPDF_GF25_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF25_0_R');
 
-Route::get('/formenMatrixPDF_GF31_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF31_0_L');
-Route::get('/formenMatrixPDF_GF31_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF31_0_R');
+     Route::get('/formenMatrixPDF_GF26_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF26_0_L');
+     Route::get('/formenMatrixPDF_GF26_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF26_0_R');
 
-Route::get('/formenMatrixPDF_GF40_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF40_0_L');
-Route::get('/formenMatrixPDF_GF40_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF40_0_R');
+     Route::get('/formenMatrixPDF_GF30_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF30_0_L');
+     Route::get('/formenMatrixPDF_GF30_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF30_0_R');
+     Route::get('/formenMatrixPDF_GK30_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GK30_0_L');
+     Route::get('/formenMatrixPDF_GK30_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GK30_0_R');
 
-Route::get('/formenMatrixPDF_GF45_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF45_0_L');
-Route::get('/formenMatrixPDF_GF45_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF45_0_R');
+     Route::get('/formenMatrixPDF_GF31_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF31_0_L');
+     Route::get('/formenMatrixPDF_GF31_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF31_0_R');
 
-Route::get('/formenMatrixPDF_GF50_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF50_0_L');
-Route::get('/formenMatrixPDF_GF50_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF50_0_R');
+     Route::get('/formenMatrixPDF_GF40_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF40_0_L');
+     Route::get('/formenMatrixPDF_GF40_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF40_0_R');
+
+     Route::get('/formenMatrixPDF_GF45_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF45_0_L');
+     Route::get('/formenMatrixPDF_GF45_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF45_0_R');
+
+     Route::get('/formenMatrixPDF_GF50_0_L', 'PropellerFormMatritzenController@formenMatrixPDF_GF50_0_L');
+     Route::get('/formenMatrixPDF_GF50_0_R', 'PropellerFormMatritzenController@formenMatrixPDF_GF50_0_R');
+
+});
+
 
 
 //Bereich Motor
 Route::resource('motoren','MotorenController');
 Route::resource('motorGetriebe','MotorGetriebeController');
 Route::resource('motorFlansche','MotorFlanscheController');
-
-
-//Bereich Produktion
-Route::resource('materialien','MaterialienController');
-Route::resource('materialHersteller','MaterialHerstellerController');
-
-
-Route::get('/herstellerPDF', 'MaterialHerstellerController@herstellerPDF');
-Route::get('/materialienPDF', 'MaterialienController@materialienPDF');
-
-
-//Bereich LFA
-Route::resource('laermmessungDaten','LaermmessungDatenController');
-Route::resource('laermmessungen','LaermmessungenController');
-
-
-Route::get('/laermmessBerichtPDF/{laermmessBerichtPDF}', 'LaermmessungenController@laermmessBerichtPDF');
 
 
 //Bereich StepCode
@@ -222,13 +224,6 @@ Route::resource('propellerStepCodeBlattBloecke','PropellerStepCodeBlattBloeckeCo
 Route::resource('propellerStepCodeWurzelnF','PropellerStepCodeWurzelnFController');
 Route::resource('propellerStepCodeWurzelnAV','PropellerStepCodeWurzelnAVController');
 Route::resource('propellerStepCodeWurzelBloecke','PropellerStepCodeWurzelBloeckeController');
-
-
-Route::middleware(['auth'])->group( function(){
-
-     Route::get('get/{filename}', 'PropellerStepCodeDateienController@getFile')->name('getfile');
-
-});
 
 
 //Bereich Q13 Fräsprogramm
