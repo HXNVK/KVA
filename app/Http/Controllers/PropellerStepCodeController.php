@@ -18,6 +18,7 @@ use App\Models\PropellerStepCodeWurzelBlock;
 
 use PDF;
 
+
 class PropellerStepCodeController extends Controller
 {
 
@@ -49,8 +50,8 @@ class PropellerStepCodeController extends Controller
      */
     public function create()
     {
-
-        $propellerModellBlaetter = PropellerModellBlatt::orderBy('name','asc')->get();
+        //sortiert die Daten der z.B. Propeller Blätter aus der Datenbank aufsteigend nach Namen und speichert es in der Variable $PropellerModellBlaetter
+        $propellerModellBlaetter = PropellerModellBlatt::orderBy('name','asc')->get();          
         $propellerModellWurzel = PropellerModellWurzel::orderBy('name','asc')->get();
         $propellerProfile = PropellerStepCodeProfil::orderBy('name','asc')->get();
         $propellerModellKompatibilitaeten = PropellerModellKompatibilitaet::orderBy('name','asc')->get();
@@ -64,9 +65,10 @@ class PropellerStepCodeController extends Controller
         //dd($propellerProfile);
 
         //dd($propellerModellBlaetter);
+        // folgende Variablen werden zurückgegeben
         return view('propellerStepCode.create', 
                 compact(
-                    'propellerModellBlaetter',  
+                    'propellerModellBlaetter',
                     'propellerModellWurzel',
                     'propellerProfile',
                     'propellerModellKompatibilitaeten',
@@ -175,10 +177,11 @@ class PropellerStepCodeController extends Controller
         //
     }
 
+    //---------------- Main code  ---------------------------------
     public function Main_Step_Code(Request $request){              //Steuerung des Step Codes
         //**********************************INPUT*************************************************
             
-            //dd($request->input());
+            dd($request->input());
 
 
             //..........................Allgemeine Angaben..........................................
@@ -531,6 +534,7 @@ class PropellerStepCodeController extends Controller
             
             //schreibe Java Prop Input Deck
     }
+
     function WriteCalculationInput($Point_Array, $filename){            //Geometrieberechnung und Output (Profiltiefe und Winkel lokal)
         //findet Punkte der Blatt VK
         $counter = 0;
@@ -626,6 +630,7 @@ class PropellerStepCodeController extends Controller
         return($KnotVector);
         
     }
+
     function Spline_Calculator($Polpoints, $tKnot, $k, $nplus1){
         $NumPointsOnSpline = 27; //Anzahl der Punkte auf dem Spline
         $kplusnplus1 = $k+$nplus1;
@@ -726,7 +731,9 @@ class PropellerStepCodeController extends Controller
        // $Umrisskurve[0] = $VK_Spline;
         //$Umrisskurve[1] = $HK_Spline;
         return ($Points_on_Spline);
-    }    
+    
+    }
+
     private function Geometry_Calculation_Blade($include_NC, $includeblock, $inputBlatt, $inputBlatt_Block, $Side, $Turn_Direction, $SwitchVKHK){        //Geometrieberechnung des Blattes
         //............................Scope........................................
             /*
@@ -1592,6 +1599,7 @@ class PropellerStepCodeController extends Controller
             
             return ($Punkte_Blatt);
     }
+
     function Geometry_Calculation_RootF($includeblock ,$input_Wurzel_F, $inputWurzel_Block, $Side, $Turn_Direction){         //Geometrieberechnung der Wurzel Typ F
 
         //............................Input.........................................
@@ -2738,6 +2746,7 @@ class PropellerStepCodeController extends Controller
             }
             return($Points);
     }
+
     function Geometry_Calculation_Extension($inputBlatt, $inputBlatt_Block,  $Side, $Turn_Direction, $includeblock){   //Geometrieberechnung Verlängerung
         //............................Scope.......................................
                 /*
@@ -3208,6 +3217,7 @@ class PropellerStepCodeController extends Controller
             return($Punkte_Verlaengerung);
 
     }
+
     function Geometry_Calculation_CAM($Points, $Side, $includeBlade,  $includeRoot, $Roottyp, $Turn_Direction, $inputWurzel_Block, $inputBlatt_Block, $DFB, $includeExtension){   //Geometrieberechnung CAM-Hilfslinien und flächen
         //............................Scope.......................................
                 /*
@@ -4076,6 +4086,7 @@ class PropellerStepCodeController extends Controller
 
 
     }
+
     function Geometry_Calculation_RootAV($Punkte_Blatt, $includeblock , $inputWurzel_AV, $inputWurzel_Block, $Side, $Turn_Direction){ //Geometrieberechnung der Wurzel Typ A/V   
         //............................Input.........................................
                 //Input Block
@@ -5418,6 +5429,7 @@ class PropellerStepCodeController extends Controller
             }
             return($Points);
     }
+
     function Geometry_Calculation_RootK($includeblock ,$input_Wurzel_F, $inputWurzel_Block, $Side, $Turn_Direction, $Roottyp){ //Geometrieberechnung der Wurzel Typ K
         //............................Input.........................................
                 //Input Block
@@ -6739,6 +6751,7 @@ class PropellerStepCodeController extends Controller
 
             
     }
+
     function GeometryCalculationfreeSurface($input_free_Surface){ //Geometrieberechnung der freien Fläche
         //............................Input.........................................
                 //Input Block
@@ -6809,6 +6822,7 @@ class PropellerStepCodeController extends Controller
             return($Points);
 
     } 
+
     function GeometryCalculationfreeSpline($input_free_Spline){ //Geometrieberechnung der freien Fläche
         //............................Input.........................................
                
@@ -6883,7 +6897,8 @@ class PropellerStepCodeController extends Controller
 
             return($Points);
 
-    } 
+    }
+
     private function StepPostProcessor($Point_Array, $Name, $Side, $showSplines){     //Steppostprozessor (steuert alle notwendigen Postprozessor Funktionen)
         /*
 
@@ -6962,6 +6977,7 @@ class PropellerStepCodeController extends Controller
      return ($Step_Output);
 
     }
+
     private function Step_Frame($Frame_List, $Spline_List, $Name, $showSplines){        //Erstellung Grundgerüst der Step-Datei
         global $EntityCounter;
         global $Step_Output;
@@ -7071,7 +7087,8 @@ class PropellerStepCodeController extends Controller
         $STEPFRAME[2] = $ENDSEC;
 
         return($STEPFRAME);
-    }    
+    }
+
     private function Surface_Frame($Spline_List, $Point_List, $Surface_List, $Color, $Surface_Name){  //Erstellung Grundgerüst Step Fläche
         /*
 
@@ -7265,6 +7282,7 @@ class PropellerStepCodeController extends Controller
         $Step_Output = $Step_Output.$SURFACE_FRAME;
         return($Frame_List);
     }
+
     private function SplineEntity($Name,  $Points,  $u, $v, $numberofcontrolpointsx, $numberofcontrolpointsy, $xKnotVector, $yKnotVector){    //Erstellung Step Spline Befehle (für Flächenberandung)
                     /*
 
@@ -7381,6 +7399,7 @@ class PropellerStepCodeController extends Controller
 
             return ($Spline_List);
     }
+
     private function SurfaceEntity($Name, $Points, $Spline_List,  $u, $v, $Color){ //Erstellung Step Flächen Befehle
             /*
 
@@ -7540,6 +7559,7 @@ class PropellerStepCodeController extends Controller
         $Step_Output = $Step_Output.$CARTESIAN_POINT;
         return ($Point_List);
     }
+
     private function Cone($Point_List, $Spline_Entities, $COLOUR, $Side){   //Erstellung Konus Befehle
             /*
 
@@ -7857,6 +7877,7 @@ class PropellerStepCodeController extends Controller
         //}
         return ($Frame_List);
     }
+
     private function SplineEntity_Line($Name,  $Points,  $u,  $numberofcontrolpointsx,  $xKnotVector){ //Erstellung Step Spline Befehle (nur für Linien)
         /*
 
@@ -7958,5 +7979,3 @@ class PropellerStepCodeController extends Controller
     }
             
 }
-
-
